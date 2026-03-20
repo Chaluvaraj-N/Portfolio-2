@@ -13,8 +13,6 @@ Modern, responsive single-page portfolio website showcasing Full-Stack Developme
 
 ## Files
 - `Portfolio.html` - Main portfolio
-- `auth-demo.html` - Auth demo (WIP)
-- `TODO.md` - Development roadmap
 
 ## Quick Start
 ```bash
