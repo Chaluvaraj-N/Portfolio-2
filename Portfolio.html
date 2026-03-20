@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
    
-    :root {
+:root {
       --cream: #f9f5ef;
       --cream-dark: #f0e9de;
       --cream-mid: #ede4d7;
@@ -24,6 +24,18 @@
       --ff-body: 'DM Sans', sans-serif;
       --ff-mono: 'DM Mono', monospace;
       --ease: cubic-bezier(0.25, 0, 0, 1);
+    }
+
+    [data-theme="dark"] {
+      --cream: #0f0e0d;
+      --cream-dark: #1a1714;
+      --cream-mid: #25221f;
+      --ink: #f5f3ed;
+      --ink-soft: #e0ded3;
+      --ink-muted: #b8b2a8;
+      --border: #403e38;
+      --shadow: rgba(15,14,13,0.4);
+      --blush: #4a3d33;
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -53,7 +65,62 @@
       pointer-events: none;
       z-index: 9999;
       opacity: 0.35;
+      mix-blend-mode: overlay;
     }
+
+    /* CSS Particles for Hero */
+    .particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      background: radial-gradient(circle, var(--gold) 10%, transparent);
+      border-radius: 50%;
+      animation: float 20s infinite linear;
+    }
+
+    .p1 { width: 4px; height: 4px; top: 20%; left: 10%; animation-duration: 25s; animation-delay: 0s; }
+    .p2 { width: 6px; height: 6px; top: 60%; left: 80%; animation-duration: 30s; animation-delay: -5s; }
+    .p3 { width: 3px; height: 3px; top: 80%; left: 30%; animation-duration: 22s; animation-delay: -10s; }
+    .p4 { width: 5px; height: 5px; top: 10%; left: 70%; animation-duration: 28s; animation-delay: -15s; }
+    .p5 { width: 2px; height: 2px; top: 40%; left: 20%; animation-duration: 18s; animation-delay: -20s; }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Dark mode toggle */
+    .dark-toggle {
+      position: relative;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      z-index: 101;
+    }
+
+    .dark-toggle input {
+      opacity: 0;
+      position: absolute;
+    }
+
+    .dark-toggle span {
+      font-size: 1.2rem;
+      transition: opacity 0.3s ease;
+    }
+
+    .dark-toggle input:checked ~ .toggle-moon { opacity: 1; }
+    .dark-toggle input:not(:checked) ~ .toggle-sun { opacity: 1; }
+    .toggle-sun, .toggle-moon { opacity: 0.5; }
+
+    #dark-mode:checked ~ * [data-theme="dark"] { display: block; }
+    /* Note: Full dark mode via attribute selector in CSS */
 
     /* ===== LAYOUT ===== */
     .container {
@@ -244,6 +311,22 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      perspective: 1000px;
+    }
+
+    .hero-right::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(192,98,42,0.05), rgba(201,168,76,0.03));
+      border-radius: 20px;
+      z-index: -1;
+      animation: subtlePulse 4s ease-in-out infinite;
+    }
+
+    @keyframes subtlePulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.02); }
     }
 
     .hero-card {
@@ -869,9 +952,22 @@
 <body>
 
   <!-- NAV -->
-  <nav class="nav">
+<nav class="nav">
     <div class="container">
-      <a href="#" class="nav-brand">Portfolio</a>
+      <!-- Dark Mode Toggle -->
+      <label class="dark-toggle" for="dark-mode">
+        <span class="toggle-sun">☀️</span>
+        <span class="toggle-moon">🌙</span>
+        <input type="checkbox" id="dark-mode" title="Toggle Dark Mode">
+        
+      </label>
+      <!-- Mobile Menu Toggle -->
+      <label class="mobile-toggle" for="mobile-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+      <a href="#hero" class="nav-brand">Chaluva<span>'s</span> Portfolio</a>
       <ul class="nav-links">
         <li><a href="#about">About</a></li>
         <li><a href="#skills">Skills</a></li>
@@ -888,25 +984,32 @@
     <div class="container" style="display:contents;">
       <div class="hero-left container" style="padding-top:0; padding-bottom:0;">
         <div class="hero-eyebrow anim d1">Available for Hire — 2026</div>
-        <h1 class="hero-title anim d2">Building <em>Digital<br>Architecture</em><br>with precision.</h1>
-        <p class="hero-sub anim d3">Full-stack developer specializing in high-performance interfaces and scalable backend systems.</p>
+        <h1 class="hero-title anim d2">Designing <em>the Future with <br>Software Development and</em><br>Artificial Intelligence.</h1>
+        <p class="hero-sub anim d3">Full-Stack Developer focused on AI-driven applications, high-performance UI, and scalable backend architectures.</p>
         <div class="hero-ctas anim d4">
           <a href="#projects" class="btn btn-primary">View Projects</a>
           <a href="#contact" class="btn btn-ghost">Let's Talk</a>
         </div>
       </div>
       <div class="hero-right anim d5">
-        <!-- Floating Cards -->
-        <div class="hero-card hc-main">
-          <div class="hc-label">Current Focus</div>
-          <h3>Full‑Stack Dev + AI</h3>
-          <p>Deep learning, scalable APIs, and beautiful UIs.</p>
+        <div class="particles">
+          <div class="particle p1"></div>
+          <div class="particle p2"></div>
+          <div class="particle p3"></div>
+          <div class="particle p4"></div>
+          <div class="particle p5"></div>
         </div>
-        <div class="hero-card hc-stat">
+        <!-- Floating Cards with Parallax -->
+        <div class="hero-card hc-main" style="transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);">
+          <div class="hc-label">Current Focus</div>
+          <h3>Full-Stack Dev + AI</h3>
+          <p>Full-Stack Developer specializing in deep learning, scalable APIs, and beautiful user interfaces.</p>
+        </div>
+        <div class="hero-card hc-stat" style="transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);">
           <div class="big-num">Upskill</div>
           <div class="big-label">is key for success</div>
         </div>
-        <div class="hero-card hc-skill">
+        <div class="hero-card hc-skill" style="transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);">
           <div class="hc-label" style="font-family:var(--ff-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--rust);margin-bottom:.6rem;">Top Stack</div>
           <div class="pill-row">
             <span class="pill accent">Python</span>
@@ -916,7 +1019,7 @@
             <span class="pill">SQL</span>
           </div>
         </div>
-        <div class="hero-card hc-avail">
+        <div class="hero-card hc-avail" style="transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);">
           <span class="avail-dot"></span><span class="avail-text">Open to opportunities</span>
         </div>
       </div>
@@ -930,9 +1033,10 @@
       <h2 class="section-title">Crafting code that<br><em>feels like art.</em></h2>
       <div class="about-layout">
         <div class="about-text">
-          <p>I bridge the gap between <strong>complex engineering</strong> and intuitive design. My approach is rooted in the belief that software should be as beautiful as it is functional.</p>
-          <p>With <strong>5+ years</strong> of experience building production systems, I focus on performance, accessibility, and developer experience. I love working across the stack — from designing pixel-perfect interfaces to architecting robust backend services.</p>
-          <p>Currently building an AI-based deepfake detection system at <strong>TrueView AI</strong> and growing my open-source footprint.</p>
+          <p>I bridge the gap between <strong>software engineering</strong> and <strong>intelligent design</strong>, creating solutions that are both powerful and intuitive. My approach is rooted in the belief that software should be as intelligent as it is user-friendly.</p>
+<p>As a <strong>Full-Stack Developer</strong>, I specialize in building <strong>AI-powered applications</strong>, scalable backend systems, and high-performance interfaces. I focus on performance, accessibility, and seamless user experiences across the stack.</p>
+<p>I love working end-to-end — from crafting <strong>pixel-perfect UIs</strong> to architecting <strong>robust APIs</strong> and integrating <strong>artificial intelligence</strong> into real-world solutions.</p>
+<p>Currently exploring and building projects in <strong>AI, deep learning</strong>, and <strong>modern web technologies</strong>, while continuously growing my skills and open-source contributions.</p>
         </div>
         <div class="about-aside">
           <div class="info-row">
@@ -941,15 +1045,15 @@
           </div>
           <div class="info-row">
             <span class="info-key">Experience</span>
-            <span class="info-val">5+ Years Professional</span>
+            <span class="info-val">Entry-Level Developer</span>
           </div>
           <div class="info-row">
             <span class="info-key">Availability</span>
-            <span class="info-val" style="color:var(--sage);">● Open to remote & freelance</span>
+            <span class="info-val" style="color:var(--sage);">● Open to Full-Time, on-site & remote </span>
           </div>
           <div class="info-row">
             <span class="info-key">Focus Areas</span>
-            <span class="info-val">Full-Stack · AI/ML · Open Source</span>
+            <span class="info-val">Full-Stack · Software development · AI/ML · Open Source</span>
           </div>
         </div>
       </div>
@@ -1017,35 +1121,35 @@
       <h2 class="section-title">Projects that <em>define me.</em></h2>
       <div class="projects-grid">
         <div class="proj-card">
-          <div class="proj-cat">Fintech</div>
-          <h3>Nexus Dashboard</h3>
-          <p>A real-time data visualization platform for high-frequency trading assets, built for speed and clarity.</p>
+          <div class="proj-cat">full-stack</div>
+          <h3>Domain Expert Discovery Platform</h3>
+          <p>Built a scalable AI-driven web platform leveraging advanced search and data processing to automate expert identification and enhance discovery efficiency.</p>
           <div class="proj-tags">
             <span class="ptag">React</span>
-            <span class="ptag">D3.js</span>
-            <span class="ptag">WebSocket</span>
+            <span class="ptag">Python</span>
+            <span class="ptag">Web Scraping</span>
           </div>
           <span class="proj-link">View Project →</span>
         </div>
         <div class="proj-card">
-          <div class="proj-cat">SaaS</div>
-          <h3>Void CMS</h3>
-          <p>Headless content management system built for speed and developer experience with a clean API surface.</p>
+          <div class="proj-cat">Python with AI</div>
+          <h3>Intelligent Poaching Detection and Response System </h3>
+          <p>Developed an AI-powered system for detecting and responding to poaching activities in real-time.</p>
           <div class="proj-tags">
-            <span class="ptag">Next.js</span>
-            <span class="ptag">PostgreSQL</span>
-            <span class="ptag">GraphQL</span>
+            <span class="ptag">Python</span>
+            <span class="ptag">YOLO</span>
+            <span class="ptag">AI</span>
           </div>
           <span class="proj-link">View Project →</span>
         </div>
         <div class="proj-card">
           <div class="proj-cat">AI</div>
-          <h3>Neural Sync</h3>
-          <p>Distributed computing interface for training large language models locally — fast, private, accessible.</p>
+          <h3>TalentScout</h3>
+          <p>Developed TalentScout, an AI-driven hiring assistant chatbot that streamlines candidate screening and generates dynamic technical questions based on tech stack.</p>
           <div class="proj-tags">
             <span class="ptag">Python</span>
-            <span class="ptag">CUDA</span>
-            <span class="ptag">React</span>
+            <span class="ptag">Streamlit</span>
+            <span class="ptag">OpenAI GPT-3.5 Turbo</span>
           </div>
           <span class="proj-link">View Project →</span>
         </div>
@@ -1062,18 +1166,18 @@
         <a href="#" class="repo-card">
           <div class="repo-top">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-            <span class="repo-name">react-query-utils</span>
+            <span class="repo-name">HTML-Practice</span>
           </div>
           <div class="repo-meta">
             <span>★ 342</span>
             <span>⑂ 48</span>
-            <span style="margin-left:auto;display:flex;align-items:center;gap:.35rem;"><span class="lang-dot dot-ts"></span> TypeScript</span>
+            <span style="margin-left:auto;display:flex;align-items:center;gap:.35rem;"><span class="lang-dot dot-ts"></span> HTML</span>
           </div>
         </a>
         <a href="#" class="repo-card">
           <div class="repo-top">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-            <span class="repo-name">neural-net-visualizer</span>
+            <span class="repo-name">Python-Core & Programming</span>
           </div>
           <div class="repo-meta">
             <span>★ 218</span>
@@ -1084,7 +1188,7 @@
         <a href="#" class="repo-card">
           <div class="repo-top">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-            <span class="repo-name">obsidian-theme-engine</span>
+            <span class="repo-name">CSS-Practice</span>
           </div>
           <div class="repo-meta">
             <span>★ 156</span>
@@ -1103,28 +1207,29 @@
       <h2 class="section-title">Professional <em>Journey.</em></h2>
       <div class="exp-list">
         <div class="exp-row">
-          <div class="exp-year">2025 – Present</div>
+          <div class="exp-year">2026 – Present</div>
           <div>
-            <div class="exp-role">AI Developer</div>
-            <div class="exp-company">TrueView AI &nbsp;·&nbsp; Student Project</div>
-            <p class="exp-desc">Developing an AI-based system to detect deepfake videos shared on social media platforms. The project focuses on identifying manipulated videos using deep learning models and improving digital media authenticity.</p>
+            <div class="exp-role">Full Stack Development with Generative AI</div>
+            <div class="exp-company">Dhee Coding Lab &nbsp;·&nbsp; Intern </div>
+            <p class="exp-desc">Developing end-to-end web applications using HTML, CSS, JavaScript, React, and Python frameworks as part of a hands-on full stack internship. Integrating Generative AI concepts, APIs, and database systems while applying Git/GitHub for version control and collaborative development. </p>
             <div class="exp-tags">
               <span class="ptag">Python</span>
-              <span class="ptag">Deep Learning</span>
-              <span class="ptag">Computer Vision</span>
+              <span class="ptag">SQL</span>
+              <span class="ptag">Front-End</span>
+              <span class="ptag">Django</span>
             </div>
           </div>
         </div>
         <div class="exp-row">
           <div class="exp-year">2025</div>
           <div>
-            <div class="exp-role">AI / ML Intern</div>
-            <div class="exp-company">Edunet Foundation</div>
-            <p class="exp-desc">Worked on machine learning projects involving data preprocessing, model training, and AI application development. Gained hands-on experience with Python, ML libraries, and real-world datasets.</p>
+            <div class="exp-company">Infosys Springboard (Virtual Internship)  &nbsp;·&nbsp; AI stack Intern </div>
+            <p class="exp-desc">Developed an AI-powered wildlife monitoring system using YOLO object detection to detect humans, animals, and weapons from drone/surveillance footage. Automated email alert notifications with timestamped evidence images using Python and SMTP, enabling faster response to illegal poaching activities. </p>
             <div class="exp-tags">
               <span class="ptag">Python</span>
-              <span class="ptag">Machine Learning</span>
-              <span class="ptag">Data Analysis</span>
+              <span class="ptag">YOLO</span>
+              <span class="ptag">SMTP</span>
+              <span class="ptag">AI</span>
             </div>
           </div>
         </div>
@@ -1143,15 +1248,15 @@
           <div class="contact-social">
             <a href="#" class="social-link">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-              github.com/dev-portfolio
+              github.com/ChaluvaRaj-N-portfolio
             </a>
             <a href="#" class="social-link">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-              linkedin.com/in/dev-portfolio
+              linkedin.com/in/ChaluvaRaj-N-portfolio
             </a>
-            <a href="mailto:hello@devportfolio.com" class="social-link">
+            <a href="mailto:chaluvashetty23@gmail.com" class="social-link">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              hello@devportfolio.com
+              chaluvashetty23@gmail.com
             </a>
           </div>
         </div>
